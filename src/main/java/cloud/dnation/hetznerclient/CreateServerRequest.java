@@ -39,4 +39,6 @@ public class CreateServerRequest {
     private List<Integer> networks;
     @SerializedName("public_net")
     private PublicNetRequest publicNet;
+    @SerializedName("placement_group")
+    private Integer placementGroup;
 }
