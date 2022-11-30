@@ -183,6 +183,27 @@ public interface HetznerApi {
     Call<GetNetworkByIdResponse> getNetworkById(@Path("id") int id);
 
     /**
+     * Get placement groups, optionally filtered using label expression.
+     *
+     * @param selector Can be used to filter resources by labels.
+     *                 The response will only contain resources matching the label selector.
+     * @return  returns matching placement groups.
+     * see <a href="https://docs.hetzner.cloud/#placement-groups-get-all-placementgroups">API reference</a>
+     */
+    @GET("/v1/placement_groups")
+    Call<GetPlacementGroupsResponse> getPlacementGroups(@Query("label_selector") String selector);
+
+    /**
+     * Get placement group detail based on provided placement group ID.
+     *
+     * @param id placement group ID
+     * @return details of placement group
+     * see <a href="https://docs.hetzner.cloud/#placement-groups-get-a-placementgroup">API reference</a>
+     */
+    @GET("/v1/placement_groups/{id}")
+    Call<GetPlacementGroupByIdResponse> getPlacementGroupById(@Path("id") int id);
+
+    /**
      * Get all Primary IP objects.
      *
      * @param selector Can be used to filter resources by labels.
