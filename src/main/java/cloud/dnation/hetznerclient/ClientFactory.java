@@ -18,6 +18,7 @@ package cloud.dnation.hetznerclient;
 import com.google.common.net.HttpHeaders;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
@@ -29,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 @Slf4j
+@UtilityClass
 public class ClientFactory {
     private static final ConnectionPool CP = new ConnectionPool(2,
             30,
