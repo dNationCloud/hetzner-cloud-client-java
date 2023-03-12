@@ -1,0 +1,651 @@
+openapi: 3.0.0
+info:
+  description: Hetzner API
+  version: 1.0.0
+  title: Hetzner API
+paths: {}
+components:
+  parameters:
+    Identifier:
+      name: id
+      in: path
+      required: true
+      description: Item identifier
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+  schemas:
+    Identifier:
+      description: Object identifier/unique key
+      format: int32
+      type: integer
+
+    Labeled:
+      additionalProperties:
+        type: string
+      description: User-defined labels (key-value pairs)
+      type: object
+
+    CreationTimestamp:
+      description: Point in time when the Resource was created (in
+        ISO-8601 format)
+      example: '2016-01-30T23:55:00+00:00'
+      type: string
+
+    IdentifiableResource:
+      type: object
+      properties:
+        id:
+          description: Resource identifier
+          $ref: "#/components/schemas/Identifier"
+
+    AbstractSearchResponse:
+      type: object
+      properties:
+        meta:
+          $ref: "#/components/schemas/Meta"
+
+    Meta:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+
+    Pagination:
+      type: object
+      properties:
+        last_page:
+          type: string
+          description: ID of the last page available. Can be null if the current page is the last one.
+          example: 4
+        next_page:
+          type: string
+          description: ID of the next page. Can be null if the current page is the last one.
+          example: 4
+        page:
+          type: string
+          description: Current page number.
+          example: 3
+        per_page:
+          type: string
+          description: Maximum number of items shown per page in the response
+          example: 25
+        previous_page:
+          type: string
+          description: ID of the previous page. Can be null if the current page is the first one.
+          example: 2
+        total_entries:
+          type: string
+          description: The total number of entries that exist in the database for this query. Nullable if unknown.
+          example: 100
+
+    GetDatacentersResponse:
+      allOf:
+        - $ref: "#/components/schemas/AbstractSearchResponse"
+      properties:
+        datacenters:
+          type: array
+          items:
+            $ref: "#/components/schemas/DatacenterDetail"
+      type: object
+
+    GetLocationsResponse:
+      allOf:
+        - $ref: "#/components/schemas/AbstractSearchResponse"
+      properties:
+        locations:
+          type: array
+          items:
+            $ref: "#/components/schemas/LocationDetail"
+      type: object
+
+    GetNetworksBySelectorResponse:
+      allOf:
+        - $ref: "#/components/schemas/AbstractSearchResponse"
+      properties:
+        networks:
+          type: array
+          items:
+            $ref: "#/components/schemas/NetworkDetail"
+      type: object
+
+    GetServersBySelectorResponse:
+      allOf:
+        - $ref: "#/components/schemas/AbstractSearchResponse"
+      properties:
+        servers:
+          type: array
+          items:
+            $ref: "#/components/schemas/ServerDetail"
+      type: object
+
+    GetImagesBySelectorResponse:
+      allOf:
+        - $ref: "#/components/schemas/AbstractSearchResponse"
+      properties:
+        images:
+          type: array
+          items:
+            $ref: "#/components/schemas/ImageDetail"
+      type: object
+
+    GetServerTypesResponse:
+      allOf:
+        - $ref: "#/components/schemas/AbstractSearchResponse"
+      properties:
+        server_types:
+          type: array
+          items:
+            $ref: "#/components/schemas/ServerType"
+      type: object
+
+    GetPlacementGroupsResponse:
+      allOf:
+        - $ref: "#/components/schemas/AbstractSearchResponse"
+      properties:
+        placement_groups:
+          type: array
+          items:
+            $ref: "#/components/schemas/PlacementGroupDetail"
+      type: object
+
+    GetSshKeysBySelectorResponse:
+      allOf:
+        - $ref: "#/components/schemas/AbstractSearchResponse"
+      properties:
+        ssh_keys:
+          type: array
+          items:
+            $ref: "#/components/schemas/SshKeyDetail"
+      type: object
+
+    GetAllPrimaryIpsResponse:
+      allOf:
+        - $ref: "#/components/schemas/AbstractSearchResponse"
+      properties:
+        primary_ips:
+          type: array
+          items:
+            $ref: "#/components/schemas/PrimaryIpDetail"
+      type: object
+
+    ActionResponse:
+      properties:
+        action:
+          $ref: "#/components/schemas/ActionDetail"
+      type: object
+
+    GetImageByIdResponse:
+      properties:
+        image:
+          $ref: "#/components/schemas/ImageDetail"
+      type: object
+
+    GetNetworkByIdResponse:
+      properties:
+        network:
+          $ref: "#/components/schemas/NetworkDetail"
+      type: object
+
+    GetPlacementGroupByIdResponse:
+      properties:
+        placement_group:
+          $ref: "#/components/schemas/PlacementGroupDetail"
+      type: object
+
+    GetServerByIdResponse:
+      properties:
+        server:
+          $ref: "#/components/schemas/ServerDetail"
+      type: object
+
+    CreateSshKeyRequest:
+      properties:
+        labels:
+          $ref: "#/components/schemas/Labeled"
+        name:
+          description: Name of the SSH key
+          example: My ssh key
+          type: string
+        public_key:
+          description: Public key
+          example: ssh-rsa AAAjjk76kgf...Xt
+          type: string
+      type: object
+
+    CreateSshKeyResponse:
+      properties:
+        created:
+          $ref: "#/components/schemas/CreationTimestamp"
+        fingerprint:
+          description: Fingerprint of public key
+          example: b7:2f:30:a0:2f:6c:58:6c:21:04:58:61:ba:06:3b:2f
+          type: string
+        id:
+          $ref: "#/components/schemas/Identifier"
+        labels:
+          $ref: "#/components/schemas/Labeled"
+        name:
+          description: Name of the Resource. Must be unique per Project.
+          example: my-resource
+          type: string
+        public_key:
+          description: Public key
+          example: ssh-rsa AAAjjk76kgf...Xt
+          type: string
+      type: object
+
+    CreateServerRequest:
+      properties:
+        datacenter:
+          description: ID or name of Datacenter to create Server in (must
+            not be used together with location)
+          example: nbg1-dc3
+          type: string
+        image:
+          description: ID or name of the Image the Server is created from
+          example: ubuntu-20.04
+          type: string
+        labels:
+          $ref: "#/components/schemas/Labeled"
+        location:
+          description: ID or name of Location to create Server in (must not
+            be used together with datacenter)
+          example: nbg1
+          type: string
+        name:
+          description: Name of the Server to create (must be unique per Project
+            and a valid hostname as per RFC 1123)
+          example: my-server
+          type: string
+        networks:
+          description: Network IDs which should be attached to the Server
+            private network interface at the creation time
+          example:
+            - 456
+          items:
+            type: integer
+          type: array
+        placement_group:
+          description: ID of the Placement Group the server should be in
+          example: 1
+          type: integer
+        public_net:
+          description: Public Network options
+          $ref: "#/components/schemas/PublicNetRequest"
+        server_type:
+          description: ID or name of the Server type this Server should be
+            created with
+          example: cx11
+          type: string
+        ssh_keys:
+          description: SSH key IDs (`integer`) or names (`string`) which should
+            be injected into the Server at creation time
+          example:
+            - my-ssh-key
+          items:
+            type: string
+          type: array
+        start_after_create:
+          description: Start Server right after creation. Defaults to true.
+          example: true
+          type: boolean
+        user_data:
+          description: Cloud-Init user data to use during Server creation.
+            This field is limited to 32KiB.
+          example: |
+            #cloud-config
+            runcmd:
+            - [touch, /root/cloud-init-worked]
+          type: string
+      title: CreateServerRequest
+      type: object
+
+    CreateServerResponse:
+      properties:
+        action:
+          $ref: "#/components/schemas/ActionDetail"
+        server:
+          $ref: "#/components/schemas/ServerDetail"
+        next_actions:
+          type: array
+          items:
+            $ref: "#/components/schemas/ActionDetail"
+
+    ServerDetail:
+      allOf:
+        - $ref: "#/components/schemas/IdentifiableResource"
+      properties:
+        created:
+          description: Point in time when the Resource was created (in
+            ISO-8601 format)
+          example: '2016-01-30T23:55:00+00:00'
+          type: string
+        datacenter:
+          description: Datacenter this Resource is located at
+          $ref: "#/components/schemas/DatacenterDetail"
+        image:
+          $ref: "#/components/schemas/ImageDetail"
+        labels:
+          $ref: "#/components/schemas/Labeled"
+        name:
+          description: Name of the Server (must be unique per Project
+            and a valid hostname as per RFC 1123)
+          example: my-resource
+          type: string
+        placement_group:
+          $ref: "#/components/schemas/PlacementGroupDetail"
+        private_net:
+          description: Private networks information
+          items:
+            $ref: "#/components/schemas/PrivateNetDetail"
+          type: array
+        public_net:
+          description: Public network information. The Server's IPv4
+            address can be found in `public_net->ipv4->ip`
+          $ref: '#/components/schemas/PublicNetDetail'
+        server_type:
+          description: Type of Server - determines how much ram, disk
+            and cpu a Server has
+          $ref: '#/components/schemas/ServerType'
+        status:
+          description: Status of the Server
+          type: string
+        volumes:
+          description: IDs of Volumes assigned to this Server
+          items:
+            type: integer
+          type: array
+      type: object
+
+    PrivateNetDetail:
+      properties:
+        network:
+          description: Network ID
+          type: integer
+        ip:
+          type: string
+          description: IP address
+      type: object
+
+    PublicNetDetail:
+      properties:
+        ipv4:
+          $ref: '#/components/schemas/Ipv4Detail'
+      type: object
+
+    PublicNetRequest:
+      properties:
+        enable_ipv4:
+          description: Attach an IPv4 on the public NIC. If false, no
+            IPv4 address will be attached. Defaults to true.
+          type: boolean
+        enable_ipv6:
+          description: Attach an IPv6 on the public NIC. If false, no
+            IPv6 address will be attached. Defaults to true.
+          type: boolean
+        ipv4:
+          description: ID of the ipv4 Primary IP to use. If omitted and
+            enable_ipv4 is true, a new ipv4 Primary IP will automatically
+            be created.
+          type: integer
+        ipv6:
+          description: ID of the ipv6 Primary IP to use. If omitted and
+            enable_ipv6 is true, a new ipv6 Primary IP will automatically
+            be created.
+          type: integer
+      type: object
+
+    LocationDetail:
+      allOf:
+        - $ref: "#/components/schemas/IdentifiableResource"
+      properties:
+        city:
+          description: City the Location is closest to
+          example: Falkenstein
+          type: string
+        country:
+          description: ISO 3166-1 alpha-2 code of the country
+            the Location resides in
+          example: DE
+          type: string
+        description:
+          description: Description of the Location
+          example: Falkenstein DC Park 1
+          type: string
+        latitude:
+          description: Latitude of the city closest to the
+            Location
+          example: 50.47612
+          type: number
+        longitude:
+          description: Longitude of the city closest to the
+            Location
+          example: 12.370071
+          type: number
+        name:
+          description: Unique identifier of the Location
+          example: fsn1
+          type: string
+        network_zone:
+          description: Name of network zone this Location
+            resides in
+          example: eu-central
+          type: string
+
+    Ipv4Detail:
+      properties:
+        dns_ptr:
+          description: DNS pointer for the specific IP address
+          example: server.example.com
+          type: string
+        ip:
+          description: Single IPv4 or IPv6 address
+          example: 131.232.99.1
+          type: string
+      type: object
+
+    DatacenterDetail:
+      allOf:
+        - $ref: "#/components/schemas/IdentifiableResource"
+      properties:
+        name:
+          description: Unique identifier of the Datacenter
+          example: fsn1-dc8
+          type: string
+        description:
+          description: Description of the Datacenter
+          example: Falkenstein DC Park 8
+          type: string
+        location:
+          description: Datacenter location
+          $ref: '#/components/schemas/LocationDetail'
+      type: object
+
+    PrimaryIpDetail:
+      allOf:
+        - $ref: "#/components/schemas/IdentifiableResource"
+      properties:
+        assignee_id:
+          description: ID of the resource the Primary IP is assigned
+            to, null if it is not assigned at all
+          example: 17
+          $ref: "#/components/schemas/Identifier"
+        assignee_type:
+          description: Resource type the Primary IP can be assigned
+            to
+          type: string
+        blocked:
+          description: Whether the IP is blocked
+          example: false
+          type: boolean
+        datacenter:
+          description: Datacenter this Primary IP is located at
+          $ref: '#/components/schemas/DatacenterDetail'
+        dns_ptr:
+          description: Array of reverse DNS entries
+          items:
+            $ref: '#/components/schemas/Ipv4Detail'
+          type: array
+        ip:
+          description: IP address
+          example: 131.232.99.1
+          type: string
+        labels:
+          $ref: "#/components/schemas/Labeled"
+        name:
+          description: Name of the Resource. Must be unique per Project.
+          example: my-resource
+          type: string
+        type:
+          description: Type of the Primary IP
+          type: string
+      title: PrimaryIP
+      type: object
+
+    ActionDetail:
+      allOf:
+        - $ref: "#/components/schemas/IdentifiableResource"
+      properties:
+        command:
+          description: Command executed in the Action
+          example: start_server
+          type: string
+        error:
+          description: Error message for the Action if error occurred,
+            otherwise null
+          $ref: '#/components/schemas/ErrorDetail'
+        status:
+          description: Status of the Action
+          type: string
+      title: Action
+      type: object
+
+    ErrorDetail:
+      description: Error message for the Action if error occurred,
+        otherwise null
+      properties:
+        code:
+          description: Fixed machine readable code
+          example: action_failed
+          type: string
+        message:
+          description: Humanized error message
+          example: Action failed
+          type: string
+      type: object
+
+    SshKeyDetail:
+      allOf:
+        - $ref: "#/components/schemas/IdentifiableResource"
+      properties:
+        fingerprint:
+          description: Fingerprint of public key
+          example: b7:2f:30:a0:2f:6c:58:6c:21:04:58:61:ba:06:3b:2f
+          type: string
+        labels:
+          $ref: "#/components/schemas/Labeled"
+        name:
+          description: Name of the Resource. Must be unique per Project.
+          example: my-resource
+          type: string
+        public_key:
+          description: Public key
+          example: ssh-rsa AAAjjk76kgf...Xt
+          type: string
+      type: object
+
+    ImageDetail:
+      allOf:
+        - $ref: "#/components/schemas/IdentifiableResource"
+      properties:
+        description:
+          description: Description of the Image
+          example: Ubuntu 20.04 Standard 64 bit
+          type: string
+        labels:
+          $ref: "#/components/schemas/Labeled"
+        name:
+          description: Unique identifier of the Image. This value
+            is only set for system Images.
+          example: ubuntu-20.04
+          type: string
+        status:
+          description: Whether the Image can be used or if it's still
+            being created or unavailable
+          type: string
+        type:
+          description: Type of the Image
+          example: snapshot
+          type: string
+      type: object
+
+    PlacementGroupDetail:
+      allOf:
+        - $ref: "#/components/schemas/IdentifiableResource"
+      properties:
+        labels:
+          $ref: "#/components/schemas/Labeled"
+        name:
+          description: Name of the Resource. Must be unique per Project.
+          example: my-resource
+          type: string
+        servers:
+          description: Array of IDs of Servers that are part of this
+            Placement Group
+          example:
+            - 42
+          items:
+            type: integer
+          type: array
+        type:
+          description: Type of the Placement Group
+          example: spread
+          type: string
+      title: PlacementGroup
+      type: object
+
+    NetworkDetail:
+      allOf:
+        - $ref: "#/components/schemas/IdentifiableResource"
+      properties:
+        ip_range:
+          description: IPv4 prefix of the whole Network
+          example: 10.0.0.0/16
+          type: string
+        labels:
+          $ref: "#/components/schemas/Labeled"
+        name:
+          description: Name of the Network
+          example: mynet
+          type: string
+      type: object
+
+    ServerType:
+      allOf:
+        - $ref: "#/components/schemas/IdentifiableResource"
+      properties:
+        name:
+          type: string
+        description:
+          description: Description of the Server type
+          type: string
+        cores:
+          description: Number of cpu cores a Server of this type will have
+          type: integer
+          format: int32
+        memory:
+          description: Memory a Server of this type will have in GB,
+          type: integer
+          format: int32
+        disk:
+          description: Disk size a Server of this type will have in GB
+          example: 40
+          type: integer
+          format: int32
+        deprecated:
+          description: True if Server type is deprecated,
+          example: false
+          type: boolean
+      type: object

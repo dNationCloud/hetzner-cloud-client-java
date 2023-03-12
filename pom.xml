@@ -20,8 +20,8 @@
     <artifactId>hetzner-cloud-client-java</artifactId>
     <version>1.4.0-SNAPSHOT</version>
     <name>Hetzner Cloud client</name>
-    <url>https://github.com/dNationCloud/hetzner-cloud-client-java</url>
     <description>Hetzner Cloud client</description>
+    <url>https://github.com/dNationCloud/hetzner-cloud-client-java</url>
     <organization>
         <name>dNation</name>
         <url>https://dnation.cloud/</url>
@@ -140,6 +140,16 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.6.2</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -164,6 +174,17 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.8</version>
+                <configuration>
+                    <excludes>
+                        <exclude>cloud/dnation/hetznerclient/*Response.class</exclude>
+                        <exclude>cloud/dnation/hetznerclient/*Request.class</exclude>
+                        <exclude>cloud/dnation/hetznerclient/*Detail.class</exclude>
+                        <exclude>cloud/dnation/hetznerclient/Meta.class</exclude>
+                        <exclude>cloud/dnation/hetznerclient/IdentifiableResource.class</exclude>
+                        <exclude>cloud/dnation/hetznerclient/ServerType.class</exclude>
+                        <exclude>cloud/dnation/hetznerclient/Pagination.class</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <id>default-prepare-agent</id>
@@ -176,6 +197,32 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <!-- stick to 4.3.1, see https://github.com/OpenAPITools/openapi-generator/issues/8495 -->
+                <version>4.3.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <addCompileSourceRoot>true</addCompileSourceRoot>
+                            <inputSpec>${project.basedir}/src/main/resources/api.yaml</inputSpec>
+                            <generatorName>java</generatorName>
+                            <generateApiTests>false</generateApiTests>
+                            <generateApiDocumentation>false</generateApiDocumentation>
+                            <generateSupportingFiles>false</generateSupportingFiles>
+                            <generateModelDocumentation>false</generateModelDocumentation>
+                            <generateModelTests>false</generateModelTests>
+                            <modelPackage>cloud.dnation.hetznerclient</modelPackage>
+                            <apiPackage>cloud.dnation.hetznerclient</apiPackage>
+                            <invokerPackage>cloud.dnation.hetznerclient</invokerPackage>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
