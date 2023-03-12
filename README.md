@@ -10,7 +10,7 @@ Declare dependency in `pom.xml`
 <dependency>
     <groupId>cloud.dnation.integration</groupId>
     <artifactId>hetzner-cloud-client-java</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.3.0</version>
 </dependency>
 ```
 
