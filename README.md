@@ -1,5 +1,7 @@
 # Hetzner Cloud API Client
 
+[![Sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=dNationCloud_hetzner-cloud-client-java&metric=alert_status)](https://sonarcloud.io/project/overview?id=dNationCloud_hetzner-cloud-client-java)
+
 This is client library for [Hetzner cloud](https://www.hetzner.com/cloud), based on [Retrofit HTTP client](https://github.com/square/retrofit).
 
 ### Usage
