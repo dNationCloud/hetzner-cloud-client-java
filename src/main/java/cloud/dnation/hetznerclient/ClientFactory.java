@@ -56,6 +56,7 @@ public class ClientFactory {
                 .addConverterFactory(GsonConverterFactory.create(GSON));
         return builder.build().create(HetznerApi.class);
     }
+
     /**
      * Create new proxy of {@link HetznerApi} using token provider.
      *

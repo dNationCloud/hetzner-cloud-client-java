@@ -25,7 +25,7 @@ import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class PrimaryIpDetail extends IdentifiableResource{
+public class PrimaryIpDetail extends IdentifiableResource {
     /**
      * ID of the resource the Primary IP is assigned to, null if it is not assigned at all.
      */

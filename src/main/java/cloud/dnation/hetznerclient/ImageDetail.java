@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ImageDetail extends IdentifiableResource{
+public class ImageDetail extends IdentifiableResource {
     private String type = "snapshot";
     private String status = "available";
     private String name;

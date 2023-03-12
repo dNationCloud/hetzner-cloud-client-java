@@ -23,7 +23,7 @@ import java.util.Map;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class SshKeyDetail extends IdentifiableResource{
+public class SshKeyDetail extends IdentifiableResource {
     private String created;
     private String fingerprint;
     private Map<String, String> labels;

@@ -31,7 +31,6 @@ class UserAgentInterceptor implements Interceptor {
     @Override
     @NonNull
     public Response intercept(Chain chain) throws IOException {
-        //noinspection UnstableApiUsage
         return chain.proceed(chain.request().newBuilder()
                 .addHeader(HttpHeaders.USER_AGENT, "Jenkins Hetzner Plugin")
                 .build());

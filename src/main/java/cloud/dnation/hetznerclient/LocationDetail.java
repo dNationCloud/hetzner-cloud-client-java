@@ -20,7 +20,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class LocationDetail extends IdentifiableResource{
+public class LocationDetail extends IdentifiableResource {
     private String name;
     private String description;
     private String country;

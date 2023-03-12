@@ -21,7 +21,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class NetworkDetail extends IdentifiableResource{
+public class NetworkDetail extends IdentifiableResource {
     private String name;
     @SerializedName("ip_range")
     private String ipRange;

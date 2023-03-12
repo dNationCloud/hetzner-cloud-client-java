@@ -23,7 +23,7 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class GetServerTypesResponse extends AbstractSearchResponse{
+public class GetServerTypesResponse extends AbstractSearchResponse {
     @SerializedName("server_types")
     List<ServerType> serverTypes;
 }

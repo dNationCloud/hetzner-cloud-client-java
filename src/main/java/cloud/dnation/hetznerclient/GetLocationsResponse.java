@@ -22,6 +22,6 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class GetLocationsResponse extends AbstractSearchResponse{
+public class GetLocationsResponse extends AbstractSearchResponse {
     private List<LocationDetail> locations;
 }

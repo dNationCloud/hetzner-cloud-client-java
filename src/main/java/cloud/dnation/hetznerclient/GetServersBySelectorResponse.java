@@ -24,6 +24,6 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
-public class GetServersBySelectorResponse extends AbstractSearchResponse{
+public class GetServersBySelectorResponse extends AbstractSearchResponse {
     private List<ServerDetail> servers;
 }

@@ -153,8 +153,8 @@ public interface HetznerApi {
      * Get all server matching given label selector.
      *
      * @param selector label selector used to match servers
-     * @param page page index
-     * @param perPage number of records per page
+     * @param page     page index
+     * @param perPage  number of records per page
      * @return paged list of servers
      */
     @GET("/v1/servers")
@@ -187,7 +187,7 @@ public interface HetznerApi {
      *
      * @param selector Can be used to filter resources by labels.
      *                 The response will only contain resources matching the label selector.
-     * @return  returns matching placement groups.
+     * @return returns matching placement groups.
      * see <a href="https://docs.hetzner.cloud/#placement-groups-get-all-placementgroups">API reference</a>
      */
     @GET("/v1/placement_groups")
@@ -208,7 +208,7 @@ public interface HetznerApi {
      *
      * @param selector Can be used to filter resources by labels.
      *                 The response will only contain resources matching the label selector.
-     * @return  returns all Primary IP objects.
+     * @return returns all Primary IP objects.
      * see <a href="https://docs.hetzner.cloud/#primary-ips-get-all-primary-ips">API reference</a>
      */
     @GET("/v1/primary_ips")
