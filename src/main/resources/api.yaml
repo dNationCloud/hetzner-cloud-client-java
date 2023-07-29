@@ -265,12 +265,12 @@ components:
           example:
             - 456
           items:
-            type: integer
+            type: long
           type: array
         placement_group:
           description: ID of the Placement Group the server should be in
           example: 1
-          type: integer
+          type: long
         public_net:
           description: Public Network options
           $ref: "#/components/schemas/PublicNetRequest"
@@ -280,7 +280,7 @@ components:
           example: cx11
           type: string
         ssh_keys:
-          description: SSH key IDs (`integer`) or names (`string`) which should
+          description: SSH key IDs (`long`) or names (`string`) which should
             be injected into the Server at creation time
           example:
             - my-ssh-key
@@ -355,7 +355,7 @@ components:
         volumes:
           description: IDs of Volumes assigned to this Server
           items:
-            type: integer
+            type: long
           type: array
       type: object
 
@@ -363,7 +363,7 @@ components:
       properties:
         network:
           description: Network ID
-          type: integer
+          type: long
         ip:
           type: string
           description: IP address
@@ -389,12 +389,12 @@ components:
           description: ID of the ipv4 Primary IP to use. If omitted and
             enable_ipv4 is true, a new ipv4 Primary IP will automatically
             be created.
-          type: integer
+          type: long
         ipv6:
           description: ID of the ipv6 Primary IP to use. If omitted and
             enable_ipv6 is true, a new ipv6 Primary IP will automatically
             be created.
-          type: integer
+          type: long
       type: object
 
     LocationDetail:
@@ -597,7 +597,7 @@ components:
           example:
             - 42
           items:
-            type: integer
+            type: long
           type: array
         type:
           description: Type of the Placement Group
