@@ -216,24 +216,8 @@ components:
 
     CreateSshKeyResponse:
       properties:
-        created:
-          $ref: "#/components/schemas/CreationTimestamp"
-        fingerprint:
-          description: Fingerprint of public key
-          example: b7:2f:30:a0:2f:6c:58:6c:21:04:58:61:ba:06:3b:2f
-          type: string
-        id:
-          $ref: "#/components/schemas/Identifier"
-        labels:
-          $ref: "#/components/schemas/Labeled"
-        name:
-          description: Name of the Resource. Must be unique per Project.
-          example: my-resource
-          type: string
-        public_key:
-          description: Public key
-          example: ssh-rsa AAAjjk76kgf...Xt
-          type: string
+        ssh_key:
+          $ref: "#/components/schemas/SshKeyDetail"
       type: object
 
     CreateServerRequest:
