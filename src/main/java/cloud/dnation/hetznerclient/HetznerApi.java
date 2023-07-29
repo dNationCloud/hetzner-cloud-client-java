@@ -45,7 +45,7 @@ public interface HetznerApi {
      * @see <a href="https://docs.hetzner.cloud/#images-get-an-image">Official docs</a>
      */
     @GET("/v1/images/{id}")
-    Call<GetImageByIdResponse> getImageById(@Path("id") Integer id);
+    Call<GetImageByIdResponse> getImageById(@Path("id") Long id);
 
     /**
      * Get datacenters matching provided string.
@@ -90,7 +90,7 @@ public interface HetznerApi {
      * @return {@link ActionResponse} inner object {@link ActionDetail} can be used to get result of action.
      */
     @DELETE("/v1/servers/{id}")
-    Call<ActionResponse> deleteServer(@Path("id") int id);
+    Call<ActionResponse> deleteServer(@Path("id") long id);
 
     /**
      * Get server detail for given ID.
@@ -99,7 +99,7 @@ public interface HetznerApi {
      * @return GetServerByIdResponse
      */
     @GET("/v1/servers/{id}")
-    Call<GetServerByIdResponse> getServer(@Path("id") int id);
+    Call<GetServerByIdResponse> getServer(@Path("id") long id);
 
     /**
      * Power-off server instance.
@@ -108,7 +108,7 @@ public interface HetznerApi {
      * @return {@link ActionResponse} inner object {@link ActionDetail} can be used to get result of action.
      */
     @POST("/v1/servers/{id}/actions/poweroff")
-    Call<ActionResponse> powerOffServer(@Path("id") int id);
+    Call<ActionResponse> powerOffServer(@Path("id") long id);
 
     /**
      * Create new server instance.
@@ -137,7 +137,7 @@ public interface HetznerApi {
      * See <a href="https://docs.hetzner.cloud/#ssh-keys-delete-an-ssh-key">API reference</a>
      */
     @DELETE("/v1/ssh_keys/{id}")
-    Call<ErrorDetail> deleteSshKey(@Path("id") int id);
+    Call<ErrorDetail> deleteSshKey(@Path("id") long id);
 
     /**
      * Find SSH keys matching given label selector
@@ -180,7 +180,7 @@ public interface HetznerApi {
      * see <a href="https://docs.hetzner.cloud/#networks-get-a-network">API reference</a>
      */
     @GET("/v1/networks/{id}")
-    Call<GetNetworkByIdResponse> getNetworkById(@Path("id") int id);
+    Call<GetNetworkByIdResponse> getNetworkById(@Path("id") long id);
 
     /**
      * Get placement groups, optionally filtered using label expression.
@@ -201,7 +201,7 @@ public interface HetznerApi {
      * see <a href="https://docs.hetzner.cloud/#placement-groups-get-a-placementgroup">API reference</a>
      */
     @GET("/v1/placement_groups/{id}")
-    Call<GetPlacementGroupByIdResponse> getPlacementGroupById(@Path("id") int id);
+    Call<GetPlacementGroupByIdResponse> getPlacementGroupById(@Path("id") long id);
 
     /**
      * Get all Primary IP objects.
