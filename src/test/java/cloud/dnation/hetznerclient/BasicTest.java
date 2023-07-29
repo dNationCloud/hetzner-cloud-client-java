@@ -56,7 +56,7 @@ public class BasicTest {
         Call<GetNetworkByIdResponse> call = api.getNetworkById(10);
         GetNetworkByIdResponse result = call.execute().body();
         assertEquals("my-net-1", result.getNetwork().getName());
-        assertEquals(10, (int)result.getNetwork().getId());
+        assertEquals(10, (long)result.getNetwork().getId());
         assertEquals("10.132.0.0/14", result.getNetwork().getIpRange());
     }
 
@@ -78,7 +78,7 @@ public class BasicTest {
         Call<GetNetworksBySelectorResponse> call = api.getNetworkBySelector("test=1");
         GetNetworksBySelectorResponse result = call.execute().body();
         assertEquals(1, result.getNetworks().size());
-        assertEquals(12, (int) result.getNetworks().get(0).getId());
+        assertEquals(12, (long) result.getNetworks().get(0).getId());
         assertEquals("my-net-2", result.getNetworks().get(0).getName());
         assertEquals("10.132.0.0/14", result.getNetworks().get(0).getIpRange());
         assertEquals("1", result.getMeta().getPagination().getTotalEntries());
