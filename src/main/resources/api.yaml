@@ -13,12 +13,12 @@ components:
       description: Item identifier
       schema:
         type: integer
-        format: int32
+        format: int64
         minimum: 0
   schemas:
     Identifier:
       description: Object identifier/unique key
-      format: int32
+      format: int64
       type: integer
 
     Labeled:
