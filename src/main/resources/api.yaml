@@ -80,6 +80,23 @@ components:
           description: The total number of entries that exist in the database for this query. Nullable if unknown.
           example: 100
 
+    GetVolumesResponse:
+      allOf:
+        - $ref: "#/components/schemas/AbstractSearchResponse"
+      properties:
+        volumes:
+          type: array
+          items:
+            $ref: "#/components/schemas/VolumeDetail"
+      type: object
+
+    GetVolumeByIdResponse:
+      properties:
+        volume:
+          $ref: "#/components/schemas/VolumeDetail"
+      type: object
+
+
     GetDatacentersResponse:
       allOf:
         - $ref: "#/components/schemas/AbstractSearchResponse"
@@ -222,6 +239,9 @@ components:
 
     CreateServerRequest:
       properties:
+        automount:
+          description: Auto-mount Volumes after attach
+          type: boolean
         datacenter:
           description: ID or name of Datacenter to create Server in (must
             not be used together with location)
@@ -283,6 +303,12 @@ components:
             runcmd:
             - [touch, /root/cloud-init-worked]
           type: string
+        volumes:
+          description: Volume IDs which should be attached to the Server at the creation time. Volumes must be in the same Location.
+          type: array
+          items:
+            $ref: "#/components/schemas/Identifier"
+
       title: CreateServerRequest
       type: object
 
@@ -633,3 +659,33 @@ components:
           example: false
           type: boolean
       type: object
+    VolumeDetail:
+      allOf:
+        - $ref: "#/components/schemas/IdentifiableResource"
+      properties:
+        name:
+          type: string
+          description: Name of the Resource. Must be unique per Project.
+        format:
+          description: Filesystem of the Volume if formatted on creation, null if not formatted on creation
+          type: string
+        server:
+          $ref: "#/components/schemas/Identifier"
+          description: ID of the Server the Volume is attached to, null if it is not attached at all
+        size:
+          description: Size in GB of the Volume
+          example: 40
+          type: integer
+          format: int32
+        linux_device:
+          description: Device path on the file system for the Volume
+          type: string
+        status:
+          description: Current status of the Volume
+          type: string
+        location:
+          description: Location of the Volume. Volume can only be attached to Servers in the same Location.
+          $ref: '#/components/schemas/LocationDetail'
+        labels:
+          description: User-defined labels (key-value pairs)
+          $ref: "#/components/schemas/Labeled"
