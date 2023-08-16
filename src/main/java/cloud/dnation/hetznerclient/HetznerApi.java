@@ -213,4 +213,26 @@ public interface HetznerApi {
      */
     @GET("/v1/primary_ips")
     Call<GetAllPrimaryIpsResponse> getAllPrimaryIps(@Query("label_selector") String selector);
+
+
+    /**
+     * Get volume detail based on ID.
+     *
+     * @param id volume ID
+     * @return volume detail
+     * see <a href="https://docs.hetzner.cloud/#volumes-get-a-volume">API reference</a>
+     */
+    @GET("/v1/volumes/{id}")
+    Call<GetVolumeByIdResponse> getVolumeById(@Path("id") long id);
+
+    /**
+     * Get all volumes.
+     *
+     * @param selector Can be used to filter resources by labels.
+     *                 The response will only contain resources matching the label selector.
+     * @return list of volumes
+     * see <a href="https://docs.hetzner.cloud/#volumes-get-all-volumes">API reference</a>
+     */
+    @GET("/v1/volumes")
+    Call<GetVolumesResponse> getVolumes(@Query("label_selector") String selector);
 }
