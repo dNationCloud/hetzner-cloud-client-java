@@ -383,6 +383,8 @@ components:
       properties:
         ipv4:
           $ref: '#/components/schemas/Ipv4Detail'
+        ipv6:
+          $ref: '#/components/schemas/Ipv6Detail'
       type: object
 
     PublicNetRequest:
@@ -453,6 +455,30 @@ components:
         ip:
           description: Single IPv4 or IPv6 address
           example: 131.232.99.1
+          type: string
+      type: object
+
+    Ipv6DnsPtr:
+      properties:
+        dns_ptr:
+          description: DNS pointer for the specific IP address
+          example: server.example.com
+          type: string
+        ip:
+          description: Single IPv6 address
+          example: 2001:db8::1
+          type: string
+
+    Ipv6Detail:
+      properties:
+        dns_ptr:
+          description: Reverse DNS PTR entries for the IPv6 addresses
+          items:
+            $ref: '#/components/schemas/Ipv6DnsPtr'
+          type: array
+        ip:
+          description: Single IPv6 address
+          example: 2001:db8::1
           type: string
       type: object
 
