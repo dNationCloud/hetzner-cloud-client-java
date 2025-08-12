@@ -1,0 +1,86 @@
+{
+  "firewall": {
+    "id": 345676,
+    "name": "firewall-worker",
+    "labels": {},
+    "created": "2022-11-23T12:36:58+00:00",
+    "rules": [
+      {
+        "direction": "in",
+        "protocol": "tcp",
+        "port": "22",
+        "source_ips": [
+          "0.0.0.0/0",
+          "::/0"
+        ],
+        "destination_ips": [],
+        "description": null
+      },
+      {
+        "direction": "in",
+        "protocol": "icmp",
+        "port": null,
+        "source_ips": [
+          "0.0.0.0/0",
+          "::/0"
+        ],
+        "destination_ips": [],
+        "description": null
+      },
+      {
+        "direction": "in",
+        "protocol": "tcp",
+        "port": "80",
+        "source_ips": [
+          "0.0.0.0/0",
+          "::/0"
+        ],
+        "destination_ips": [],
+        "description": null
+      },
+      {
+        "direction": "in",
+        "protocol": "tcp",
+        "port": "9090",
+        "source_ips": [
+          "0.0.0.0/0",
+          "::/0"
+        ],
+        "destination_ips": [],
+        "description": null
+      },
+      {
+        "direction": "in",
+        "protocol": "tcp",
+        "port": "443",
+        "source_ips": [
+          "0.0.0.0/0",
+          "::/0"
+        ],
+        "destination_ips": [],
+        "description": null
+      },
+      {
+        "direction": "in",
+        "protocol": "tcp",
+        "port": "any",
+        "source_ips": [
+          "10.1.0.0/16"
+        ],
+        "destination_ips": [],
+        "description": null
+      },
+      {
+        "direction": "in",
+        "protocol": "udp",
+        "port": "any",
+        "source_ips": [
+          "10.1.0.0/16"
+        ],
+        "destination_ips": [],
+        "description": null
+      }
+    ],
+    "applied_to": []
+  }
+}

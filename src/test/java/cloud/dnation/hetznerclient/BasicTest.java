@@ -102,4 +102,38 @@ public class BasicTest {
         assertEquals("1.2.3.4", result.getPrimaryIps().get(0).getIp());
         assertNull(result.getPrimaryIps().get(0).getAssigneeId());
     }
+
+    @Test
+    public void testGetFirewallBySelector() throws IOException {
+        ws.enqueue(new MockResponse().setBody(resourceAsString("get-firewalls-by-selector.json")));
+        final Call<GetFirewallsBySelectorResponse> call = api.getFirewallsBySelector("any");
+        final GetFirewallsBySelectorResponse result = call.execute().body();
+        assertEquals(3029857349L, (long) result.getFirewalls().get(0).getId());
+        assertEquals("::/0", result.getFirewalls().get(0).getRules().get(1).getSourceIps().get(1));
+        assertEquals("in", result.getFirewalls().get(0).getRules().get(1).getDirection());
+        assertEquals("22", result.getFirewalls().get(0).getRules().get(0).getPort());
+    }
+
+    @Test
+    public void testGetFirewallById() throws IOException {
+        ws.enqueue(new MockResponse().setBody(resourceAsString("get-firewall-by-id.json")));
+        final Call<GetFirewallByIdResponse> call = api.getFirewallById(345676L);
+        final GetFirewallByIdResponse result = call.execute().body();
+        assertEquals(345676, (long) result.getFirewall().getId());
+        assertEquals("::/0", result.getFirewall().getRules().get(1).getSourceIps().get(1));
+        assertEquals("in", result.getFirewall().getRules().get(1).getDirection());
+        assertEquals("22", result.getFirewall().getRules().get(0).getPort());
+    }
+
+
+    @Test
+    public void testGetFirewallByIdInvalid() throws IOException {
+        ws.enqueue(new MockResponse()
+                .setBody(resourceAsString("get-firewall-by-id-invalid.json"))
+                .setResponseCode(404)
+        );
+        Call<GetNetworkByIdResponse> call = api.getNetworkById(11);
+        Response<GetNetworkByIdResponse> response = call.execute();
+        assertEquals(404, response.code());
+    }
 }
