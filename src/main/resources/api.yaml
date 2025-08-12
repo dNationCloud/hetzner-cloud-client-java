@@ -127,6 +127,16 @@ components:
             $ref: "#/components/schemas/NetworkDetail"
       type: object
 
+    GetFirewallsBySelectorResponse:
+      allOf:
+        - $ref: "#/components/schemas/AbstractSearchResponse"
+      properties:
+        firewalls:
+          type: array
+          items:
+            $ref: "#/components/schemas/FirewallDetail"
+      type: object
+
     GetServersBySelectorResponse:
       allOf:
         - $ref: "#/components/schemas/AbstractSearchResponse"
@@ -205,6 +215,12 @@ components:
           $ref: "#/components/schemas/NetworkDetail"
       type: object
 
+    GetFirewallByIdResponse:
+      properties:
+        firewall:
+          $ref: "#/components/schemas/FirewallDetail"
+      type: object
+
     GetPlacementGroupByIdResponse:
       properties:
         placement_group:
@@ -236,7 +252,10 @@ components:
         ssh_key:
           $ref: "#/components/schemas/SshKeyDetail"
       type: object
-
+    CreateServerFirewallsRequest:
+      properties:
+        firewall:
+          $ref: "#/components/schemas/Identifier"
     CreateServerRequest:
       properties:
         automount:
@@ -247,6 +266,11 @@ components:
             not be used together with location)
           example: nbg1-dc3
           type: string
+        firewalls:
+          description: Firewalls which should be applied on the Server's public network interface at creation time.
+          type: array
+          items:
+            $ref: "#/components/schemas/CreateServerFirewallsRequest"
         image:
           description: ID or name of the Image the Server is created from
           example: ubuntu-20.04
@@ -685,6 +709,58 @@ components:
           example: false
           type: boolean
       type: object
+    FirewallRule:
+      properties:
+        description:
+          description: Description of the rule.
+          type: string
+        direction:
+          description: Traffic direction in which the rule should be applied to.
+          type: string
+        protocol:
+          description: Network protocol to apply the rule for.
+          type: string
+        port:
+          description: Port or port range to apply the rule for.
+          type: string
+        destination_ips:
+          description: List of permitted IPv4/IPv6 addresses for outgoing traffic.
+          type: array
+          items:
+            type: string
+        source_ips:
+          description: List of permitted IPv4/IPv6 addresses for incoming traffic.
+          type: array
+          items:
+            type: string
+    FirewallAppliedToDetail:
+      properties:
+        type:
+          type: string
+    FirewallDetail:
+      allOf:
+        - $ref: "#/components/schemas/IdentifiableResource"
+      properties:
+        created:
+          description: Point in time when the Resource was created (in
+            ISO-8601 format)
+          example: '2016-01-30T23:55:00+00:00'
+          type: string
+        name:
+          type: string
+          description: Name of the Firewall. Must be unique per Project.
+        rules:
+          type: array
+          items:
+            $ref: "#/components/schemas/FirewallRule"
+        applied_to:
+          type: array
+          items:
+            $ref: "#/components/schemas/FirewallAppliedToDetail"
+        labels:
+          description: User-defined labels (key-value pairs)
+          $ref: "#/components/schemas/Labeled"
+
     VolumeDetail:
       allOf:
         - $ref: "#/components/schemas/IdentifiableResource"

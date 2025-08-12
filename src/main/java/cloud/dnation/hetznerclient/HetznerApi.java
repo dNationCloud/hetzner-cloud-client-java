@@ -183,6 +183,26 @@ public interface HetznerApi {
     Call<GetNetworkByIdResponse> getNetworkById(@Path("id") long id);
 
     /**
+     * Get all firewalls matching given label selector.
+     *
+     * @param selector  label selector used to match firewalls
+     * @return list of firewalls
+     * see <a href="https://docs.hetzner.cloud/reference/cloud#firewalls-list-firewalls">API reference</a>
+     */
+    @GET("/v1/firewalls")
+    Call<GetFirewallsBySelectorResponse> getFirewallsBySelector(@Query("label_selector") String selector);
+
+    /**
+     * Get single firewall by ID.
+     *
+     * @param id  firewall ID
+     * @return firewall detail
+     * see <a href="https://docs.hetzner.cloud/reference/cloud#firewalls-get-a-firewall">API reference</a>
+     */
+    @GET("/v1/firewalls/{id}")
+    Call<GetFirewallByIdResponse> getFirewallById(@Path("id") long id);
+
+    /**
      * Get placement groups, optionally filtered using label expression.
      *
      * @param selector Can be used to filter resources by labels.
