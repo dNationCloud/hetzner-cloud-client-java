@@ -173,6 +173,20 @@ public interface HetznerApi {
     Call<GetNetworksBySelectorResponse> getNetworkBySelector(@Query("label_selector") String selector);
 
     /**
+     * Get all networks matching given label selector.
+     *
+     * @param selector label selector used to match networks
+     * @param page page index
+     * @param perPage number of items per page. API imposes limit on top of this value.
+     * @return list of networks
+     * see <a href="https://docs.hetzner.cloud/#networks-get-all-networks">API reference</a>
+     */
+    @GET("/v1/networks")
+    Call<GetNetworksBySelectorResponse> getNetworksBySelector(@Query("label_selector") String selector,
+                                                              @Query("page") int page,
+                                                              @Query("per_page") int perPage);
+
+    /**
      * Get network detail based on provided network ID.
      *
      * @param id network ID
@@ -224,6 +238,21 @@ public interface HetznerApi {
     Call<GetPlacementGroupByIdResponse> getPlacementGroupById(@Path("id") long id);
 
     /**
+     * Get all Primary IP objects matching given selector.
+     *
+     * @param selector Can be used to filter resources by labels.
+     *                 The response will only contain resources matching the label selector.
+     * @param page page index
+     * @param perPage number of items per page. API imposes limit on top of this value.
+     * @return returns all Primary IP objects.
+     * see <a href="https://docs.hetzner.cloud/#primary-ips-get-all-primary-ips">API reference</a>
+     */
+    @GET("/v1/primary_ips")
+    Call<GetAllPrimaryIpsResponse> getPrimaryIpsBySelector(@Query("label_selector") String selector,
+                                                           @Query("page") int page,
+                                                           @Query("per_page") int perPage);
+
+    /**
      * Get all Primary IP objects.
      *
      * @param selector Can be used to filter resources by labels.
@@ -233,7 +262,6 @@ public interface HetznerApi {
      */
     @GET("/v1/primary_ips")
     Call<GetAllPrimaryIpsResponse> getAllPrimaryIps(@Query("label_selector") String selector);
-
 
     /**
      * Get volume detail based on ID.
@@ -255,4 +283,19 @@ public interface HetznerApi {
      */
     @GET("/v1/volumes")
     Call<GetVolumesResponse> getVolumes(@Query("label_selector") String selector);
+
+    /**
+     * Get all volumes.
+     *
+     * @param selector Can be used to filter resources by labels.
+     *                 The response will only contain resources matching the label selector.
+     * @param page page index
+     * @param perPage number of items per page. API imposes limit on top of this value.
+     * @return list of volumes
+     * see <a href="https://docs.hetzner.cloud/#volumes-get-all-volumes">API reference</a>
+     */
+    @GET("/v1/volumes")
+    Call<GetVolumesResponse> getVolumes(@Query("label_selector") String selector,
+                                        @Query("page") int page,
+                                        @Query("per_page") int perPage);
 }

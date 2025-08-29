@@ -24,6 +24,10 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import static cloud.dnation.hetznerclient.TestHelper.resourceAsString;
 import static org.junit.Assert.assertEquals;
@@ -135,5 +139,16 @@ public class BasicTest {
         Call<GetNetworkByIdResponse> call = api.getNetworkById(11);
         Response<GetNetworkByIdResponse> response = call.execute();
         assertEquals(404, response.code());
+    }
+
+    @Test
+    public void testPaginationHelper() throws IOException {
+        ws.enqueue(new MockResponse().setBody(resourceAsString("paging-primary-ips-1.json")));
+        ws.enqueue(new MockResponse().setBody(resourceAsString("paging-primary-ips-2.json")));
+        List<PrimaryIpDetail> items = PagedResourceHelper.getAllPrimaryIps(api, "");
+        assertEquals(27, items.size());
+        assertEquals("1.2.3.4", items.get(0).getIp());
+        assertEquals("1.2.3.29", items.get(25).getIp());
+        assertEquals("1.2.3.30", items.get(26).getIp());
     }
 }
