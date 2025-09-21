@@ -1,0 +1,74 @@
+{
+  "actions": [
+    {
+      "id": 123456,
+      "command": "remove_target",
+      "status": "success",
+      "progress": 100,
+      "started": "2025-07-15T08:59:51+00:00",
+      "finished": "2025-07-15T08:59:51+00:00",
+      "resources": [
+        {
+          "id": 99999,
+          "type": "load_balancer"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": 456789,
+      "command": "add_target",
+      "status": "success",
+      "progress": 100,
+      "started": "2025-07-15T09:00:07+00:00",
+      "finished": "2025-07-15T09:00:07+00:00",
+      "resources": [
+        {
+          "id": 88888,
+          "type": "load_balancer"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": 47356,
+      "command": "remove_target",
+      "status": "success",
+      "progress": 100,
+      "started": "2025-07-15T09:00:35+00:00",
+      "finished": "2025-07-15T09:00:35+00:00",
+      "resources": [
+        {
+          "id": 99999,
+          "type": "load_balancer"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": 763542384,
+      "command": "add_target",
+      "status": "success",
+      "progress": 100,
+      "started": "2025-07-15T09:00:42+00:00",
+      "finished": "2025-07-15T09:00:42+00:00",
+      "resources": [
+        {
+          "id": 99999,
+          "type": "load_balancer"
+        }
+      ],
+      "error": null
+    }
+  ],
+  "meta": {
+    "pagination": {
+      "page": 1,
+      "per_page": 25,
+      "previous_page": null,
+      "next_page": null,
+      "last_page": 1,
+      "total_entries": 4
+    }
+  }
+}

@@ -137,6 +137,16 @@ components:
             $ref: "#/components/schemas/FirewallDetail"
       type: object
 
+    GetActionsResponse:
+      allOf:
+        - $ref: "#/components/schemas/AbstractSearchResponse"
+      properties:
+        actions:
+          type: array
+          items:
+            $ref: "#/components/schemas/ActionDetail"
+      type: object
+
     GetServersBySelectorResponse:
       allOf:
         - $ref: "#/components/schemas/AbstractSearchResponse"
@@ -579,6 +589,15 @@ components:
         status:
           description: Status of the Action
           type: string
+        progress:
+          description: Operation progress, in percent.
+          type: integer
+          format: int32
+        resources:
+          description: List of resources the Action relates to
+          type: array
+          items:
+            $ref: "#/components/schemas/IdentifiableResource"
       title: Action
       type: object
 

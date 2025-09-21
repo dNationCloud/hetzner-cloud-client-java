@@ -26,13 +26,12 @@ import retrofit2.Response;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 import static cloud.dnation.hetznerclient.TestHelper.resourceAsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+@SuppressWarnings("DataFlowIssue")
 public class BasicTest {
     private static MockWebServer ws;
     private static HetznerApi api;
@@ -129,6 +128,26 @@ public class BasicTest {
         assertEquals("22", result.getFirewall().getRules().get(0).getPort());
     }
 
+    @Test
+    public void testGetServerActions() throws IOException{
+        ws.enqueue(new MockResponse().setBody(resourceAsString("get-lb-actions.json")));
+        Call<GetActionsResponse> call;
+        GetActionsResponse result;
+        call = api.getResourceActions("load_balancers", null, 0, 25);
+        result = call.execute().body();
+        assertEquals(4, result.getActions().size());
+        assertEquals(100, (int) result.getActions().get(0).getProgress());
+        assertEquals("remove_target", result.getActions().get(0).getCommand());
+
+        List<Long> ids = new ArrayList<>();
+        ids.add(99999L);
+        ws.enqueue(new MockResponse().setBody(resourceAsString("get-lb-actions-with-id.json")));
+        call = api.getResourceActions("load_balancers", ids, 0, 25);
+        result = call.execute().body();
+        assertEquals(1, result.getActions().size());
+        assertEquals(100, (int) result.getActions().get(0).getProgress());
+        assertEquals("remove_target", result.getActions().get(0).getCommand());
+    }
 
     @Test
     public void testGetFirewallByIdInvalid() throws IOException {

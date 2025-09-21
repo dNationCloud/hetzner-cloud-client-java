@@ -23,6 +23,8 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
+import java.util.List;
+
 /**
  * Trimmed-down version of Hetzner public cloud API.
  * For full version, check <a href="https://docs.hetzner.cloud/">official documentation</a>
@@ -298,4 +300,19 @@ public interface HetznerApi {
     Call<GetVolumesResponse> getVolumes(@Query("label_selector") String selector,
                                         @Query("page") int page,
                                         @Query("per_page") int perPage);
+
+    /**
+     * Get actions for given resource type (servers/networks/load_balancers/floating_ips/firewalls/volumes).
+     *
+     * @param resource type of resource.
+     * @param ids The response will only contain actions matching the specified IDs.
+     * @param page page index.
+     * @param perPage number of items per page. API imposes limit on top of this value.
+     * @return paged list of actions for given resource type.
+     */
+    @GET("/v1/{resource}/actions")
+    Call<GetActionsResponse> getResourceActions(@Path("resource") String resource,
+                                                @Query("id") List<Long> ids,
+                                                @Query("page") int page,
+                                                @Query("per_page") int perPage);
 }
