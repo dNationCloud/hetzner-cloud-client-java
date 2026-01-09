@@ -30,6 +30,17 @@ import java.util.List;
  * For full version, check <a href="https://docs.hetzner.cloud/">official documentation</a>
  */
 public interface HetznerApi {
+
+    /**
+     * Get/poll the status of an asynchronous API on the Hetzner Cloud.
+     * <p>Normally, the rate limit of this API is higher and separate from the other API calls,
+     * as it is preferred to poll the /actions endpoint to wait for an asynchronous action to complete.</p>
+     * @param actionId the ID of the action whose status you want to poll
+     * @return the full Action object, including its current status
+     */
+    @GET("/v1/actions/{id}")
+    Call<ActionResponse> getActionById(@Path("id") Long actionId);
+
     /**
      * Get all images that matches given label expression.
      *
