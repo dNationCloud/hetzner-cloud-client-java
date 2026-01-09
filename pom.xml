@@ -18,7 +18,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>cloud.dnation.integration</groupId>
     <artifactId>hetzner-cloud-client-java</artifactId>
-    <version>1.12.0-SNAPSHOT</version>
+    <version>1.13.0-SNAPSHOT</version>
     <name>Hetzner Cloud client</name>
     <description>Hetzner Cloud client</description>
     <url>https://github.com/dNationCloud/hetzner-cloud-client-java</url>
