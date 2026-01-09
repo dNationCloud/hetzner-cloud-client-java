@@ -52,6 +52,22 @@ public class BasicTest {
     }
 
     @Test
+    public void testGetActionById() throws IOException {
+        ws.enqueue(new MockResponse()
+                .setBody(resourceAsString("get-action-by-id.json"))
+        );
+        Call<ActionResponse> call = api.getActionById(603984077612933L);
+        ActionResponse result = call.execute().body();
+        assertEquals("delete_server", result.getAction().getCommand());
+        assertEquals(100, result.getAction().getProgress().intValue());
+        assertEquals("success", result.getAction().getStatus());
+        assertNull(result.getAction().getError());
+        List<IdentifiableResource> relatedResources = result.getAction().getResources();
+        assertEquals(1, relatedResources.size());
+        assertEquals(117017457L, relatedResources.get(0).getId().longValue());
+    }
+
+    @Test
     public void testGetNetworkById() throws IOException {
         ws.enqueue(new MockResponse()
                 .setBody(resourceAsString("get-network-by-id.json"))
