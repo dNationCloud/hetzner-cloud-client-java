@@ -274,6 +274,7 @@ components:
         datacenter:
           description: ID or name of Datacenter to create Server in (must
             not be used together with location)
+          deprecated: true
           example: nbg1-dc3
           type: string
         firewalls:
@@ -368,7 +369,11 @@ components:
           type: string
         datacenter:
           description: Datacenter this Resource is located at
+          deprecated: true
           $ref: "#/components/schemas/DatacenterDetail"
+        location:
+          description: Location this Resource is located at
+          $ref: "#/components/schemas/LocationDetail"
         image:
           $ref: "#/components/schemas/ImageDetail"
         labels:
@@ -552,7 +557,11 @@ components:
           type: boolean
         datacenter:
           description: Datacenter this Primary IP is located at
+          deprecated: true
           $ref: '#/components/schemas/DatacenterDetail'
+        location:
+          description: Location of the Primary IP
+          $ref: '#/components/schemas/LocationDetail'
         dns_ptr:
           description: Array of reverse DNS entries
           items:
