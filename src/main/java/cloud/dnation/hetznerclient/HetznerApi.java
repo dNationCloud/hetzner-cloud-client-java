@@ -87,6 +87,18 @@ public interface HetznerApi {
     @GET("/v1/locations")
     Call<GetLocationsResponse> getAllLocationsWithName(@Query("name") String name);
 
+
+    /**
+     * Get all locations.
+     *
+     * @param page     page index
+     * @param perPage  number of records per page
+     * @return list of matching locations in form of {@link LocationDetail} wrapped in {@link GetLocationsResponse}.
+     */
+    @GET("/v1/locations")
+    Call<GetLocationsResponse> getAllLocations(@Query("page") int page,
+                                               @Query("per_page") int perPage);
+
     /**
      * Get server types whose name is matching provided string.
      *
