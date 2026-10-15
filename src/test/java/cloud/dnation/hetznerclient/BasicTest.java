@@ -15,8 +15,11 @@
  */
 package cloud.dnation.hetznerclient;
 
+import okhttp3.mockwebserver.Dispatcher;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
+import okhttp3.mockwebserver.QueueDispatcher;
+import okhttp3.mockwebserver.RecordedRequest;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -25,7 +28,10 @@ import retrofit2.Response;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static cloud.dnation.hetznerclient.TestHelper.resourceAsString;
 import static org.junit.Assert.assertEquals;
@@ -185,5 +191,40 @@ public class BasicTest {
         assertEquals("1.2.3.4", items.get(0).getIp());
         assertEquals("1.2.3.29", items.get(25).getIp());
         assertEquals("1.2.3.30", items.get(26).getIp());
+    }
+
+    @Test
+    public void testPaginationHelperRequestsOneBasedPages() throws IOException {
+        final List<String> requestedPages = new ArrayList<>();
+        ws.setDispatcher(new Dispatcher() {
+            @Override
+            public MockResponse dispatch(RecordedRequest request) {
+                final String page = request.getRequestUrl().queryParameter("page");
+                requestedPages.add(page);
+                try {
+                    switch (page) {
+                        // Hetzner API pages are 1-based and treat page=0 as page=1
+                        case "0":
+                        case "1":
+                            return new MockResponse().setBody(resourceAsString("paging-primary-ips-1.json"));
+                        case "2":
+                            return new MockResponse().setBody(resourceAsString("paging-primary-ips-2.json"));
+                        default:
+                            return new MockResponse().setResponseCode(404);
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        try {
+            List<PrimaryIpDetail> items = PagedResourceHelper.getAllPrimaryIps(api, "");
+            assertEquals(Arrays.asList("1", "2"), requestedPages);
+            List<String> ips = items.stream().map(PrimaryIpDetail::getIp).collect(Collectors.toList());
+            assertEquals(27, ips.size());
+            assertEquals(ips.size(), new HashSet<>(ips).size());
+        } finally {
+            ws.setDispatcher(new QueueDispatcher());
+        }
     }
 }

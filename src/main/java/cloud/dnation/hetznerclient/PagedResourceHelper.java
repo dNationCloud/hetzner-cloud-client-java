@@ -33,7 +33,7 @@ public class PagedResourceHelper {
      * Consume all items from paginated REST endpoint.
      *
      * @param labelSelector label selector to restrict items only to those that match selector
-     * @param pageSupplier {@link BiFunction} that takes page index (zero based) and selector and produces {@link Response}
+     * @param pageSupplier {@link BiFunction} that takes page index (one based) and selector and produces {@link Response}
      * @param itemsGetter {@link Function} that takes response from pageSupplier and extracts list of items
      * @return all items combined to single list
      * @param <T> item type
@@ -43,7 +43,8 @@ public class PagedResourceHelper {
             String labelSelector,
             BiFunction<Integer, String, Call<X>> pageSupplier, Function<X, List<T>> itemsGetter) throws IOException {
         final List<T> result = new ArrayList<>();
-        for (int i = 0; ; i++) {
+        // Hetzner API pages are 1-based. Page 0 is served as page 1, so starting at 0 returns the first page twice.
+        for (int i = 1; ; i++) {
             final Response<X> page = pageSupplier.apply(i, labelSelector).execute();
             assertValidResponse(page);
             final X body = page.body();
