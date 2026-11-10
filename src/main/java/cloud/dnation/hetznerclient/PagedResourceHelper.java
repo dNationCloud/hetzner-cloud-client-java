@@ -73,6 +73,6 @@ public class PagedResourceHelper {
 
     private static <X extends AbstractSearchResponse> void assertValidResponse(Response<X> response) {
         Preconditions.checkArgument(response.isSuccessful(),
-                "Invalid response code: %d", response.code());
+                "Invalid response code: %s", response.code());
     }
 }
