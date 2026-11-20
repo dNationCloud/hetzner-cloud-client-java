@@ -38,13 +38,14 @@ public class ClientFactory {
 
     private static final Gson GSON = new GsonBuilder().create();
 
-    private static HetznerApi create(String apiToken) {
+    private static HetznerApi create(String apiToken, RateLimitBuckets rateLimitBuckets) {
         final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(log::trace);
         loggingInterceptor.redactHeader(HttpHeaders.AUTHORIZATION);
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         final OkHttpClient client = new OkHttpClient.Builder()
                 .connectionPool(CP)
                 .addInterceptor(new AuthenticationInterceptor(apiToken))
+                .addInterceptor(new RateLimitRetryInterceptor(rateLimitBuckets))
                 .addInterceptor(UserAgentInterceptor.INSTANCE)
                 .addInterceptor(loggingInterceptor)
                 .build();
@@ -65,6 +66,19 @@ public class ClientFactory {
      * @throws IllegalStateException when credentialsId is not valid
      */
     public static HetznerApi create(Supplier<String> tokenProvider) {
-        return create(tokenProvider.get());
+        return create(tokenProvider.get(), null);
+    }
+
+    /**
+     * Create new proxy of {@link HetznerApi} using token provider,
+     * updating the given {@link RateLimitBuckets} from every API response.
+     *
+     * @param tokenProvider     supplier of Hetzner API token.
+     * @param rateLimitBuckets  holder updated with rate limit headers from each response, or null.
+     * @return Proxy of {@link HetznerApi}
+     * @throws IllegalStateException when credentialsId is not valid
+     */
+    public static HetznerApi create(Supplier<String> tokenProvider, RateLimitBuckets rateLimitBuckets) {
+        return create(tokenProvider.get(), rateLimitBuckets);
     }
 }
